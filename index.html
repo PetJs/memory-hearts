@@ -10,11 +10,32 @@
   <main class="container">
     <h1>Match the Hearts 💖</h1>
     <p>Find all the matching pairs of love-themed messages!</p>
+    <section class="timer">
+      <div>
+        <p>Time: </p>
+        <p>00:00</p>
+      </div>
+      <div>
+        <p>HighScore: </p>
+        <p>00:00</p>
+      </div>
+    </section>
     <div id="game-board" class="game-board">
       <!-- Cards will be generated here using JavaScript -->
     </div>
     <button class="reset-button" onclick="resetGame()">Reset Game</button>
   </main>
+  <!-- Custom win message modal -->
+  <div id="win-message" class="win-message hidden">
+    <div class="win-content">
+      <h2>Congratulations!</h2>
+      <p>🥳 Yay! You've matched all the hearts!</p>
+      <p>Will you be my Valentine❤️?</p>
+      <button onclick="resetGame()" class="play-again-button">
+        Play Again
+      </button>
+    </div>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>

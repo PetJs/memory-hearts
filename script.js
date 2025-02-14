@@ -72,7 +72,7 @@ function checkMatch (){
         flippedCards = [];
         if(matchedCards.length === cards.length){
             setTimeout(() =>{
-                alert("🥳🥳 Yay! You've matched all the hearts! Happy Valentine!❤️")
+              document.getElementById("win-message").classList.remove("hidden");
             }, 600);
         }
     }else{
@@ -95,6 +95,7 @@ function checkMatch (){
 
 function resetGame(){
     const gameBoard = document.getElementById("game-board");
+    document.getElementById("win-message").classList.add("hidden");
     gameBoard.innerHTML = "";
     flippedCards = [];
     matchedCards = [];
