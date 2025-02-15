@@ -13,11 +13,11 @@
     <section class="timer">
       <div>
         <p>Time: </p>
-        <p>00:00</p>
+        <p id="timerDisplay">00:00</p>
       </div>
       <div>
         <p>HighScore: </p>
-        <p>00:00</p>
+        <p id="highscoreDisplay">00:00</p>
       </div>
     </section>
     <div id="game-board" class="game-board">
@@ -31,6 +31,7 @@
       <h2>Congratulations!</h2>
       <p>🥳 Yay! You've matched all the hearts!</p>
       <p>Will you be my Valentine❤️?</p>
+      <p id="highscoreText"></p>
       <button onclick="resetGame()" class="play-again-button">
         Play Again
       </button>

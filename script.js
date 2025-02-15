@@ -24,6 +24,69 @@ function createBoard() {
     gameBoard.appendChild(cardElement);
   });
 }
+
+// TIMER LOGIC
+
+const timerDisplay = document.getElementById("timerDisplay")
+const highScoreDisplay = document.getElementById("highscoreDisplay")
+let timer = null;
+let startTime = 0;
+let elaspsedTime = 0;
+let isRunning = false;
+let highScore = null
+
+// Start the time function
+// 1. check if the timer is running just for debugging 
+// 2. start the time
+// 3. update the timer using the update timer function
+
+
+function start(){
+  if(!isRunning){
+    startTime = Date.now() - elaspsedTime;
+    timer = setInterval(updateTimer, 10);
+    isRunning = true;
+  }
+}
+
+// Stop Function
+// 1. Stop the timer
+// 2. Get the timer and store it in the highscore
+// 3. check if the time to stop the game is lesser than the highscore
+// 4. if yes, update the highscore to the lesser one
+
+function stop(){
+  if(isRunning){
+    clearInterval(timer)
+    isRunning = false
+  }
+
+  if(highScore === null || elaspsedTime < highScore){
+    highScore = elaspsedTime;
+    let mins = Math.floor(elaspsedTime/(1000 * 60) % 60);
+    let seconds = Math.floor(elaspsedTime/1000 % 60)
+
+    mins = String(mins).padStart(2, '0');
+    seconds = String(seconds).padStart(2, '0');
+
+    highScoreDisplay.textContent = `${mins}:${seconds}`
+
+  }
+}
+
+function updateTimer(){
+  const currentTime = Date.now();
+  elaspsedTime = currentTime - startTime
+  let mins = Math.floor(elaspsedTime/(1000 * 60) % 60);
+  let seconds = Math.floor(elaspsedTime/1000 % 60)
+
+  mins = String(mins).padStart(2, '0');
+  seconds = String(seconds).padStart(2, '0');
+
+  timerDisplay.textContent = `${mins}:${seconds}`
+}
+
+
 // flipcard logic
 // 1. listen for the event target and store it
 // 2. card shoud flip if it meets the following conditions:
@@ -37,16 +100,19 @@ function createBoard() {
 // 7. call it where it will be triggered , createBoard
 
 function flipCard(event) {
-    const card = event.target;
-    if (!flippedCards.includes(card) && !matchedCards.includes(card) && flippedCards.length < 2) {
-    card.textContent = card.dataset.value;
-    card.classList.add("flipped");
-    flippedCards.push(card);
-    if (flippedCards.length === 2) {
-      checkMatch();
-    console.log("it is match");
-        }
-    }
+  if(!isRunning){
+    start();
+  }
+  const card = event.target;
+  if (!flippedCards.includes(card) && !matchedCards.includes(card) && flippedCards.length < 2) {
+  card.textContent = card.dataset.value;
+  card.classList.add("flipped");
+  flippedCards.push(card);
+  if (flippedCards.length === 2) {
+    checkMatch();
+  console.log("it is match");
+      }
+  }
 }
 
 // logic to check if the cards match
@@ -71,9 +137,10 @@ function checkMatch (){
         matchedCards.push(card1, card2);
         flippedCards = [];
         if(matchedCards.length === cards.length){
-            setTimeout(() =>{
-              document.getElementById("win-message").classList.remove("hidden");
-            }, 600);
+          setTimeout(() =>{
+            stop();
+            document.getElementById("win-message").classList.remove("hidden");
+          }, 600);
         }
     }else{
         setTimeout(() => {
@@ -100,7 +167,13 @@ function resetGame(){
     flippedCards = [];
     matchedCards = [];
     createBoard();
+
+    clearInterval(timer)
+    startTime = 0;
+    elaspsedTime = 0;
+    timerDisplay.textContent = "00:00";
 }
 
 createBoard();
+
 
